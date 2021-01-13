@@ -71,14 +71,131 @@ this repository aims for interview, it will be collect questions that was asked 
             - 代替componentWillUpdate()
             - 原因在于在componentDidUpdate中使用componentWillUpdate中获取的dom，值可能已经失效
 3. react通信
+    - 组件通信大体有如下几种：
+        - 父组件向子组件
+        - 子组件向父祖件
+        - 跨级组件
+        - 非嵌套组件
+    - 父 to 子
+        - 父祖件向子组件传递props
+        - 子组件通过props接收
+    - 子 to 父
+        - 父组件向子组件传递props
+        - 子组件调用父组件的回调函数
+    - 跨级组件通信 
+        - 父组件向子组件的子组件通信
+        - 第一种，props层层传递，但是嵌套过深，不方便
+        - 第二种使用context
+    - 非嵌套组件通信
+        - 使用events包，自定义事件
+    - 通信还可以使用redux
+    - useContext,useReducer
 
 4. 跨域通信有哪些
+    - 跨域请求，只是浏览器对请求对限制
+    - 服务器仍然能收到客户端请求
+    - 服务器之间不存在跨域
+    - 协议/ 域名/ 端口号 任何一个不一致，就属于跨域
+    - 实现跨域的九种方法
+        - jsonp
+            - 利用script标签src的跨域属性
+        - cors
+        - nginx
+        - websocket
+        - postMessage
+        - document.domain + iframe跨域
+            - 实现原理：两个页面都通过js强制设置document.domain为基础主域，就实现了同域
+        - window.name
+        - location.hash
 
 5. http缓存
+    - 浏览器第一次向服务器发起请求时
+    - 服务器在返回资源的同时， 会在响应头中添加和缓存相关的字段：
+        - 如Cache-Control,
+        - Expires
+        - Last-modified
+        - Etag
+        - Date
+    - 之后浏览器再向该服务器请求资源时，会依据情况使用强缓存还是协商缓存
+    - 强缓存： 
+        - 浏览器直接从本地缓存中获取数据，不与服务器进行交互
+    - 协商缓存
+        - 浏览器请求服务器，由服务器判断是否可使用本地缓存
+    - 联系区别：
+        - 最终都是从本地取缓存，区别在于是否和服务求进行交互
 
-6. commonjs 和 es module区别
+    - 强缓存
+        - 用户发起了一个http请求后，浏览器发现先本地已有所请求资源的缓存，便开始检查缓存是否过期
+        - 有两个http头部字段控制缓存的有效期：Expires和Cache-Control
+        - Cache-Control的常用指令：
+            - no-cache：含义是不使用本地缓存，需要使用协商缓存，也就是先与服务器确认缓存是否可用。
+            - no-store：禁用缓存。
+            - public：表明其他用户也可使用缓存，适用于公共缓存服务器的情况。
+            - private：表明只有特定用户才能使用缓存，适用于公共缓存服务器的情况
+        - 经过上述两步判断后，若缓存未过期，返回状态码为200，则直接从本地读取缓存，这就完成了整个强缓存过程；
+        - 如果缓存过期，则进入协商缓存或服务器返回新资源过程
+    - 协商缓存
+        - Etag 和 If-None-Match
+            - 浏览器发起请求后，服务器会在响应头中添加Etag
+            - 资源更新时，服务端Etag值也会更新
+            - 浏览器再次请求时，会在请求头中添加 If-None-Match 字段，值就是上次响应报文中Etag的值
+            - 服务器会比对ETag与If-None-Match的值是否一致，如果不一致，服务器则接受请求，返回更新后的资源
+            - 如果一致，表明资源未更新，则返回状态码为304的响应，可继续使用本地缓存，要注意的是，此时响应头会加上ETag字段，即使它没有变化
+        - Last-Modified 和 If-Modified-Since
+            - 浏览器第一次向服务器请求资源后，服务器会在响应头中加上Last-Modified字段，表明该资源最后一次的修改时间
+            - 浏览器再次请求该资源时，会在请求报文头中添加If-Modified-Since字段，它的值就是上次服务器响应报文中的Last-Modified的值
+            - 服务器会比对Last-Modified与If-Modified-Since的值是否一致，如果不一致，服务器则接受请求，返回更新后的资源
+            - 如果一致，表明资源未更新，则返回状态码为304的响应，可继续使用本地缓存
+            - 与ETag不同的是：此时响应头中不会再添加Last-Modified字段
+        - ETag 较之 Last-Modified的优势
+            - ETag的出现主要是为了解决几个Last-Modified比较难解决的问题：
+                - 一些文件也许会周期性的更改，但是他的内容并不改变(仅仅改变的修改时间)，这个时候我们并不希望客户端认为这个文件被修改了，而重新GET
+                - 某些文件修改非常频繁，比如在秒以下的时间内进行修改，(比方说1s内修改了N次)，If-Modified-Since能检查到的粒度是s级的，这种修改无法判断(或者说UNIX记录MTIME只能精确到秒)
+            - 利用ETag能够更加准确的控制缓存，因为ETag是服务器自动生成的资源在服务器端的唯一标识符，资源每次变动，都会生成新的ETag值
+            - Last-Modified与ETag是可以一起使用的，但服务器会优先验证ETag
+
+6. AMD,CommonJS,CMD,UMD,ES6
+    - CommonJS有四个重要的环境变量，为模块化的实现提供支持，node是实践者
+        - module
+        - exports
+        - require
+        - global
+        - require 命令用于输入其它模块提供的功能
+        - module.exports 用于规范模块对外的接口，输出一个值拷贝，输出后不能改变，会缓存起来
+        - CommonJS 采用同步加载模块
+    - AMD是"Asynchronous Module Definition"的缩写，意思就是"异步模块定义"， RequireJS 是最佳实践者
+        - 模块功能有如下几个命令：
+            - define
+                - define是全局函数，用来定义模块,define(id?, dependencies?, factory)
+            - require
+                - require命令用于输入其他模块提供的功能
+            - return
+                - return命令用于规范模块的对外接口
+            - define.amd
+                - define.amd属性是一个对象，此属性的存在来表明函数遵循AMD规范
+    - CMD(Common Module Definition - 通用模块定义)规范主要是Sea.js推广中形成的，一个文件就是一个模块
+        - 它与AMD很类似，不同点在于：AMD 推崇依赖前置、提前执行，CMD推崇依赖就近、延迟执行。
+    - UMD(Universal Module Definition - 通用模块定义)模式，该模式主要用来解决CommonJS模式和AMD模式代码不能通用的问题，并同时还支持老式的全局变量规范。
+    - ES modules（ESM）是 JavaScript 官方的标准化模块系统。
+        - 模块的导入导出，通过import和export来确定。 可以和Commonjs模块混合使用
+        - ES modules输出的是值的引用，输出接口动态绑定，可以和Commonjs模块混合使用
+        - ES modules 模块编译时执行，而 CommonJS 模块总是在运行时加载
+    - CommonJS 主要有执行主要有以下两个特点
+        - CommonJS 模块中 require 引入模块的位置不同会对输出结果产生影响，并且会生成值的拷贝
+        - CommonJS 模块重复引入的模块并不会重复执行，再次获取模块只会获得之前获取到的模块的缓存
+    -  ES6 模块编译时执行会导致有以下两个特点：
+        - import 命令会被 JavaScript 引擎静态分析，优先于模块内的其他内容执行。
+        - export 命令会有变量声明提前的效果。
+    - 结语
+        - CommonJS 同步加载
+        - AMD 异步加载
+        - UMD = CommonJS + AMD
+        - ES Module 是标准规范, 取代 UMD，是大势所趋
+        - Tree-shaking 牢记副作用。
 
 7. tree sharking原理
+    - Tree-shaking来对代码做静态分析消除无用的代码， 将没有使用的模块摇掉，这样来达到删除无用代码的目的
+    - 
 
 8. webpack配置，常用的loader、plugin
 
