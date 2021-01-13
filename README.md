@@ -323,7 +323,16 @@ this repository aims for interview, it will be collect questions that was asked 
 14. redux原理
 
 15. 手写一个组合继承
+    ```
+    functiion SuperType() {
 
+    }
+    function SubType() {
+        SuperType.call(this)
+    }
+    SubType.prototype = new SuperType()s
+    Subtype.prototype.constructor = SubType()
+    ```
 16. 垃圾回收机制
 
 17. hooks
@@ -331,6 +340,18 @@ this repository aims for interview, it will be collect questions that was asked 
 18. js 事件循环
 
 19. 前端怎么埋点监控
+    - 前端监控分为三类
+        - 数据监控
+        - 性能监控
+        - 异常监控
+    - 前端埋点有三种
+        - 手动埋点
+            - 手动埋点，也叫代码埋点，即纯手动写代码
+            - 手动埋点的缺陷就是，项目工程量大，需要埋点的位置太多，而且需要产品开发运营之间相互反复沟通，容易出现手动差错，如果错误，重新埋点的成本也很高。这会导致整个数据收集周期变的很长，收集成本变的很高，而且效率很低。因为手动埋点需要开发人员完成，所以每次有埋点更新，或者漏埋点，都需要重新走上线发布流程，更新成本也高，对线上系统稳定性也有一定危害
+        - 可视化埋点
+            - 通过可视化交互的手段，代替上述的代码埋点。将业务代码和埋点代码分离，提供一个可视化交互的页面，输入为业务代码，通过这个可视化系统，可以在业务代码中自定义的增加埋点事件等等，最后输出的代码耦合了业务代码和埋点代码。缺点就是可以埋点的控件有限，不能手动定制。
+        - 无埋点
+            - 无埋点则是前端自动采集全部事件，上报埋点数据，由后端来过滤和计算出有用的数据。优点是前端只要一次加载埋点脚本，缺点是流量和采集的数据过于庞大，服务器性能压力山大。
 
 20. hooks为什么不能写在if 语句里面
 
@@ -341,6 +362,11 @@ this repository aims for interview, it will be collect questions that was asked 
 23. angular, vue, react三者的区别
 
 24. http, https
+    - HTTPS和HTTP的区别主要如下：
+        - https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。
+        - http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。
+        - http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。
+        - http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全
 
 25. react-redux中connect怎么连接组件的
 
