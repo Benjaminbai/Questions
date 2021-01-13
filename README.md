@@ -195,15 +195,69 @@ this repository aims for interview, it will be collect questions that was asked 
 
 7. tree sharking原理
     - Tree-shaking来对代码做静态分析消除无用的代码， 将没有使用的模块摇掉，这样来达到删除无用代码的目的
-    - 
+    - es modules特点
+        - 只能作为模块顶层的语句出现
+        - import模块名只能是字符串常量
+        - import binding 是 immutable的
+        - ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这就是tree-shaking的基础
 
-8. webpack配置，常用的loader、plugin
+8. 常用的loader、plugin
+    - 常见 Loader ?
+        - file-loader：文件加载。
+        - url-loader：文件加载，可以设置阈值，小于时把文件 base64 编码。
+        - image-loader：加载并压缩图片。
+        - json-loader：webpack 默认包含。
+        - babel-loader：ES6+ 转成 ES5。
+        - ts-loader：ts转化为js。
+        - awesome-typescript-loader：将 ts 转换为 js，性能更好。
+        - css-loader：处理 @import 和 url 这样的外部资源。
+        - style-loader：在 head 创建 style 标签把样式插入。
+        - postcss-loader：扩展 css 语法，使用 postcss 各种插件 autoprefixer，cssnext，cssnano。
+        - eslint-loader,tslint-loader：规范代码。
+        - vue-loader：加载 vue 单文件组件。
+        - i18n-loader：国际化。
+        - cache-loader：性能开销大的 loader 前添加，将结果缓存到磁盘。
+        - svg-inline-loader：压缩后的 svg 注入代码。
+        - source-map-loader：加载 source Map 文件，方便调试。
+        - expose-loader：暴露对象为全局变量。
+        - import-loader，export-loader：可以向模块注入变量或者提供导出模块功能。
+        - raw-loader：可以将文件以字符串形式返回。
+        - 校验测试：mocha-loader，jshint-loader，eslint-loader等
+    - 常见 Plugin ?
+        - ignore-plugin：忽略文件。
+        - uglifyjs-webpack-plugin：webpack4之前，压缩和混淆代码，不支持 ES6 压缩。
+        - terser-webpack-plugin：webpack4，压缩和混淆代码，支持 ES6 压缩。
+        - webpack-parallel-uglify-plugin：多进程执行代码压缩，提升构建速度。
+        - mini-css-extract-plugin：分离样式文件，css 提取为独立文件，支持按需加载。
+        - serviceworker-webpack-plugin：为网页添加离线缓存功能。
+        - clean-webpack-plugin：目录清理。
+        - speed-measure-webpack-plugin：可以看见每个 loader 和 plugin 执行耗时。
+        - ProvidePlugin：自动加载模块，代替 require 和 import。
+        - html-webpack-plugin：可以根据模板自动生成 html 代码，并自动引用 css 和 js 文件。
+        - extract-text-webpack-plugin：将 JS 文件中引用的样式单例抽离成 css。
+        - DefinePlugin：编译时配置全局变量，这对开发模式和发布模式的构建允许不同的行为非常有用。
+        - HosModuleReplacementPlugin：热更新。
+        - DllPlugin 和 DllReferencePlugin 相互配合，前者第三方包的构建，只构建业务代码。
+        - optimize-css-assets-webpack-plugin：不同组件中重复的 css 可以快速去重。
+        - webpack-bundle-analyzer：一个 webpack 的 bundle 文件分析工具。
+        - compression-webpack-plugin：生产环境可采用 gzip 压缩 JS 和 CSS。
+        - happypack：通过多进程模型，来加速代码构建。
 
 9. 防抖和节流区别
+    - 防抖(debounce)：触发高频事件后 n 秒内函数只会执行一次，如果 n 秒内高频事件再次被触发，则重新计算时间
+    - 节流(thorttle)：高频事件触发，但在 n 秒内只会执行一次，所以节流会稀释函数的执行频率
 
 10. npm包管理机制
+    - [npm包管理机制](https://blog.csdn.net/azl397985856/article/details/103982369)
 
 11. HTTP常见的状态码
+    |状态码|类别|原因|
+    |---|---|---|
+    |1XX    |Informational（信息性状态码）|接受的请求正在处理|
+    |2XX    |Success（成功状态码）|请求正常处理完毕|
+    |3XX	|Redirection（重定向状态码）	|需要进行附加操作以完成请求|
+    |4XX	|Client Error（客户端错误状态码）	|服务器无法处理请求|
+    |5XX	|Server Error（服务器错误状态码）	|服务器处理请求出错|
 
 12. 手写一个单例模式
 
