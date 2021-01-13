@@ -354,11 +354,33 @@ this repository aims for interview, it will be collect questions that was asked 
             - 无埋点则是前端自动采集全部事件，上报埋点数据，由后端来过滤和计算出有用的数据。优点是前端只要一次加载埋点脚本，缺点是流量和采集的数据过于庞大，服务器性能压力山大。
 
 20. hooks为什么不能写在if 语句里面
-
+    - React 怎么知道哪个 state 对应哪个 useState？答案是 React 靠的是 Hook 调用的顺序
+    - 只要 Hook 的调用顺序在多次渲染之间保持一致，React 就能正确地将内部 state 和对应的 Hook 进行关联
+    - 如果写在了if语句中，渲染会跳过该 Hook，Hook 的调用顺序发生了改变
+    - 这就是为什么 Hook 需要在我们组件的最顶层调用。如果我们想要有条件地执行一个 effect，可以将判断放到 Hook 的内部
 21. useCallback的实现原理
 
 22. 写一个Promise.all函数
-
+    ```
+    Promise.prototype.all = function(arr) {
+        let count = 0
+        let result = []
+        let len = arr.length
+        return new Promise(function(resolve, reject) {
+            for(let val of arr) {
+                Promise.resolve(val).then(function(res) {
+                    count++
+                    result[count] = res
+                    if(count == len){
+                        return resolve(result)
+                    }
+                }, function(err) {
+                    return reject(err)
+                })
+            }
+        })
+    }
+    ```
 23. angular, vue, react三者的区别
 
 24. http, https
@@ -372,14 +394,10 @@ this repository aims for interview, it will be collect questions that was asked 
 
 26. useState,useEffect,useRef,useMemo在存储数据方面有什么区别
 
-27. hooks组件怎么向外传递方法
+27. webpack打包原理
 
-28. webpack打包原理
+28. webpack 插件写过没，介绍下原理
 
-29. webpack 插件写过没，介绍下原理
+29. vue3.0介绍下
 
-30. vue3.0介绍下
-
-31. 浏览器和node的事件循环
-
-32. 实现一下promise.race
+30. 浏览器和node的事件循环
