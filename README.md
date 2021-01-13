@@ -258,12 +258,69 @@ this repository aims for interview, it will be collect questions that was asked 
     |3XX	|Redirection（重定向状态码）	|需要进行附加操作以完成请求|
     |4XX	|Client Error（客户端错误状态码）	|服务器无法处理请求|
     |5XX	|Server Error（服务器错误状态码）	|服务器处理请求出错|
+    - 200 OK：请求已正常处理
+    - 204 No Content：请求处理成功，但没有任何资源可以返回给客户端
+    - 206 Partial Content：是对资源某一部分的请求，该状态码表示客户端进行了范围请求，而服务器成功执行了这部分的GET请求。响应报文中包含由Content-Range指定范围的实体内容
+    - 301 Moved Permanently：资源的uri已更新，你也更新下你的书签引用吧。永久性重定向
+    - 302 Found：资源的URI已临时定位到其他位置了，姑且算你已经知道了这个情况了。临时性重定向。
+    - 303 See Other：资源的URI已更新，你是否能临时按新的URI访问
+    - 304 Not Modified：资源已找到，但未符合条件请求。该状态码表示客户端发送附带条件的请求时（采用GET方法的请求报文中包含If-Match，If-Modified-Since，If-None-Match，If-Range，If-Unmodified-Since中任一首部）服务端允许请求访问资源，但因发生请求未满足条件的情况后，直接返回304.
+    - 400 Bad Request：服务器端无法理解客户端发送的请求，请求报文中可能存在语法错误。
+    - 401 Unauthorized：该状态码表示发送的请求需要有通过HTTP认证（BASIC认证，DIGEST认证）的认证信息。
+    - 403 Forbidden：不允许访问那个资源。
+    - 404 Not Found：服务器上没有请求的资源。路径错误等。
+    - 500 Internal Server Error：貌似内部资源出故障了。
+    - 503 Service Unavailable：抱歉，我现在正在忙着。该状态码表明服务器暂时处于超负载或正在停机维护，现在无法处理请求
 
 12. 手写一个单例模式
-
+    - 单例类只能有一个实例
+    - 单例类必须自己创建自己的唯一实例
+    - 单例类必须给所有其他对象提供这一实例
+    ```
+    let someFunc = function(value) {
+        this.value = value
+        this.init()
+    }
+    someFunc.prototype.init = function() {}
+    let singleton = (function() {
+        var instance
+        return function(value) {
+            if(!instance) {
+                instance = new someFunc(value)
+            }
+            return instance
+        }
+    })()
+    let a = new singleton("a")
+    let b = new singleton("b")
+    console.log(a === b); // true
+    ```
 13. 手写一个发布订阅模式
-
-14. 手写一个redux
+    ```
+    // 首先定义消息的发布者
+    const salesOffice = {}
+    // 定义列表，存放订阅者的回调函数
+    salesOffice.list = []
+    //设置订阅者
+    salesOffice.listen = function(key, fn) {
+        if(!this.list[key]) {
+            this.list[key] = []
+        }
+        this.list[key].push(fn)
+    }
+    // 设置发布事件
+    salesOffice.trigger = function() {
+        let key = Array.prototype.shift.call(arguments)
+        let fns = this.list[key]
+        if(!fns && fns.length == 0) {
+            return false
+        }
+        for(var i =0; fn; fn= fns[i++]) {
+            fn.apply(this, arguments)
+        }
+    }
+    ```
+14. redux原理
 
 15. 手写一个组合继承
 
