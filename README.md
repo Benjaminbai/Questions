@@ -401,3 +401,14 @@ this repository aims for interview, it will be collect questions that was asked 
 29. vue3.0介绍下
 
 30. 浏览器和node的事件循环
+
+31. axios和fetch
+    - axio基于promise实现，提供了一些并发请求的接口，非常方便
+    - 支持取消请求
+    - fetch是更低层次的api，更贴近原生，使用起来没那么方便
+    - fetch只对网络请求报错，400.500都当作成功请求
+    - fetch默认不会携带cookie， 需要手动添加
+    - fetch(url, {credentials: 'include'})
+    - fetch不支持取消请求，不支持超时控制
+
+32. [前端经典面试题(60道前端面试题包含JS、CSS、React、网络、浏览器、程序题等)](https://segmentfault.com/a/1190000020391424)
