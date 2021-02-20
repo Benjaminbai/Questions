@@ -412,3 +412,5 @@ this repository aims for interview, it will be collect questions that was asked 
     - fetch不支持取消请求，不支持超时控制
 
 32. [前端经典面试题(60道前端面试题包含JS、CSS、React、网络、浏览器、程序题等)](https://segmentfault.com/a/1190000020391424)
+
+33. [2021中高级前端面试题合集](https://www.jianshu.com/p/055e08887530)
